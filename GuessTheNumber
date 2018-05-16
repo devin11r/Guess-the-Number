@@ -1,0 +1,92 @@
+import simplegui
+import math
+import random
+
+#initializing global variables
+rand = 0
+count = 0
+
+#print statements to get player familiar with the game
+print "This is a game of Guess that Number!"
+print "Where a random number is generated,"
+print "And you attempt to guess it!"
+print "Guess a number between 1 and 100"
+print "Or a number between 1 and 1000!"
+print "Click on a range to begin"
+
+
+def main_game(input):
+    #main function that plays game
+    
+    #grabs global guess value
+    global rand
+    global count
+    store = input_guess(input)
+    
+    #compares the numbers with if/then statements
+    while count > 1:
+        if rand == store:
+            print "Correct!", store
+            print "Would you like to play again?"
+            print "Click your range"
+        elif rand > store:
+            print "Nope. Higher than", store
+            count -= 1    
+            print "You have ", count, " tries left!"
+            return count
+        elif rand < store:
+            print "Nope. Lower than", store
+            count -= 1    
+            print "You have ", count, " tries left!"
+        else:
+            return count
+        return count
+    game_over(count)
+
+    
+def rand_100():
+    #random number between 1 and 100
+    print "\n"
+    print "Range chosen: 1-100"
+    print "Enter your guess"
+    global count 
+    count = 7  
+    global rand
+    rand = int(random.randrange(0,100))
+    return rand, count 
+
+def rand_1000():
+    #random number between 1 and 1000
+    print "\n"
+    print "Range chosen: 1-1000"
+    print "Enter your guess"
+    global count 
+    count = 10
+    global rand
+    rand = int(random.randrange(0,1000))
+    return rand, count
+    
+def input_guess(input):
+    #stores the player guess
+    store = input
+    return int(store)
+
+def game_over(count):
+    global rand
+    if count == 1:
+        print "Game Over"
+        print "Close! The number was actually", rand
+        print "Play Again?"
+        print "Click A Range!"
+    else:
+        return 0
+    
+#creating frames, buttons, and input fields
+frame = simplegui.create_frame("Guess That Number!", 200, 200)
+frame.add_button("Range is [0,100)", rand_100, 200)
+frame.add_button("Range is [0,1000)", rand_1000, 200)
+frame.add_input("Enter Guess", main_game, 100)
+
+#start the frame
+frame.start()
+    
